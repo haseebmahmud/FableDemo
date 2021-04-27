@@ -30,6 +30,7 @@ tourism_aus
 tourism_aus %>% 
   forecast::autoplot(Trips)
 
+
 # SINGLE MODEL ----
 
 # Let's use ARIMA to demonstrate our first example using a single series,
@@ -58,8 +59,8 @@ accuracy(fit_single)
 fc_single %>% 
   forecast::autoplot(tourism_aus)
 
-# MULTIPLE MODEL ----
 
+# MULTIPLE MODEL ----
 # Fitting the model ====
 
 fit_multi <- tourism_aus %>% 
@@ -103,7 +104,8 @@ fc_multi_out %>%
   # Compute accuracy of the forecasts relative to the actual data 
   accuracy(tourism_aus)
 
-# COMBINATION OF FORECASTS
+
+# COMBINATION OF FORECASTS ----
 
 # Fitting the model ====
 
@@ -121,6 +123,7 @@ fit_comb <- tourism_aus %>%
 fit_comb %>% 
   forecast(h = "2 years") %>% 
   autoplot(tourism_aus, level = 80, alpha = 0.5)
+
 
 # FORECASTING AT SCALE ----
 
@@ -153,6 +156,7 @@ fit
 fit %>% 
   forecast(h = "2 years") %>% 
   autoplot(tourism_state, level = NULL)
+
 
 # References ----
 
