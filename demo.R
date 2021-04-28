@@ -16,6 +16,7 @@ library(tidyverse)
 library(tsibble)
 
 # DATA ----
+# Tourism data from tsibble package [4]
 
 glimpse(tourism)
 
@@ -138,10 +139,17 @@ fit_scale %>%
 
 accuracy(fit_scale)
 
-# Advantages and weak points
+# Advantages and weak points ----
+# Extensions: fabletools [5]
+# Extensions: fable.prophet [6]
+# Ensemble methods
+# ML methods(?)
 
 # References ----
 
 # [1] https://cran.r-project.org/web/views/TimeSeries.html
 # [2] https://robjhyndman.com/
 # [3] https://www.mitchelloharawild.com/blog/fable/
+# [4] https://github.com/tidyverts/tsibble
+# [5] https://cran.r-project.org/web/packages/fabletools/index.html
+# [6] https://cran.r-project.org/web/packages/fable.prophet/index.html
