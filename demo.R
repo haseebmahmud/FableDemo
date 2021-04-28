@@ -1,14 +1,13 @@
 # Topic: Forecasting using "fable"
 # Haseeb Mahmud
 # R Coffee Break: Wiesbaden R User Group
+# Code: https://github.com/haseebmahmud/FableDemo
 
 # As a start, you may have a look here [1] to see the list of time series related 
 # packages available by category. This list is maintained by 
 # Prof. Rob Hyndman.
 
-
 # The example is copied from Mitchell O'Hara-Wild [3] and package vignettes.
-
 
 # Loading packages ----
 
@@ -31,9 +30,7 @@ tourism_aus %>%
   forecast::autoplot(Trips)
 
 
-# SINGLE MODEL ----
-
-# Let's use ARIMA to demonstrate our first example using a single series,
+# SINGLE MODEL: ARIMA ----
 
 # Fitting the model ====
 
@@ -59,7 +56,6 @@ accuracy(fit_single)
 fc_single %>% 
   forecast::autoplot(tourism_aus)
 
-
 # MULTIPLE MODEL ----
 # Fitting the model ====
 
@@ -79,31 +75,9 @@ fit_multi %>%
   forecast(h = "2 years") %>% 
   autoplot(tourism_aus, level = 80, alpha = 0.5)
 
-# Accuracy measures (in-sample) ====
+# Accuracy measures ====
 
 accuracy(fit_multi)
-
-# Accuracy measures (out-of-sample) ====
-
-fc_multi_out <- tourism_aus %>% 
-  # Withhold the last 3 years before fitting the model
-  filter(Quarter < yearquarter("2015 Q1")) %>% 
-  # Estimate the models on the training data (1998-2014)
-  model(
-    ets      = ETS(Trips),
-    arima    = ARIMA(Trips),
-    theta    = THETA(Trips),
-    # nnetar   = NNETAR(Trips),
-    snaive   = SNAIVE(Trips),
-    lm       = TSLM(Trips ~ trend() + season())
-  ) %>% 
-  # Forecast the witheld time peroid (2015-2017)
-  forecast(h = "3 years")
-
-fc_multi_out %>% 
-  # Compute accuracy of the forecasts relative to the actual data 
-  accuracy(tourism_aus)
-
 
 # COMBINATION OF FORECASTS ----
 
@@ -124,6 +98,9 @@ fit_comb %>%
   forecast(h = "2 years") %>% 
   autoplot(tourism_aus, level = 80, alpha = 0.5)
 
+# Accuracy measures ====
+
+accuracy(fit_comb)
 
 # FORECASTING AT SCALE ----
 
@@ -141,7 +118,7 @@ tourism_state %>%
 
 # Fitting the model ====
 
-fit <- tourism_state %>% 
+fit_scale <- tourism_state %>% 
   model(
     ets = ETS(Trips),
     arima = ARIMA(Trips)
@@ -149,14 +126,19 @@ fit <- tourism_state %>%
   mutate(
     average = (ets + arima)/2
   )
-fit
+fit_scale
 
 # Generating forecasts ====
 
-fit %>% 
+fit_scale %>% 
   forecast(h = "2 years") %>% 
   autoplot(tourism_state, level = NULL)
 
+# Accuracy measures ====
+
+accuracy(fit_scale)
+
+# Advantages and weak points
 
 # References ----
 
